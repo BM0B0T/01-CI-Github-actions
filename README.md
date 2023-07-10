@@ -32,6 +32,11 @@ Dere blir også kjent med Cloud 9 utviklingsmiljøet dere skal bruke videre.
 
 ### Sjekk ut Cloud 9 miljøet ditt i AWS og bli kjent med det
 
+```text
+OBS! Cloud 9 lagrer ikke dokumenter automatisk! Du må selv gjøre ctrl+s i editoren etter du har gjort
+emdringer.
+```
+
 * URL for innlogging er https://244530008913.signin.aws.amazon.com/console
 * Brukernavnet og passordet er gitt i klasserommet
 
@@ -44,6 +49,7 @@ Dere blir også kjent med Cloud 9 utviklingsmiljøet dere skal bruke videre.
 * Velg "Open IDE"
 
 Du må nå vente litt mens Cloud 9 starter
+@
 
 * Hvis du velger "9" ikonet på øverst til venstre i hovedmenyen vil du se "AWS Explorer". Naviger gjerne litt rundt I AWS Miljøet for å bli kjent.
 * Blir kjent med IDE, naviger rundt.
@@ -56,7 +62,7 @@ Start en ny terminal i Cloud 9 ved å trykke (+) symbolet på tabbene
 Kjør denne kommandoen for å verifisere at Java 11 er installert
 
 ```shell
-java -version
+java --version
 ```
 Du skal få 
 ```
@@ -76,7 +82,8 @@ sudo yum install -y apache-maven
 
 ### Lag et Access Token for GitHub
 
-Når du skal autentisere deg mot din GitHub konto fra Cloud 9 trenger du et access token.  Gå til  https://github.com/settings/tokens og lag et nytt. 
+Når du skal autentisere deg mot din GitHub konto fra Cloud 9 trenger du et access token.  Gå til  https://github.com/settings/tokens og lag et nytt.
+(Velg "Classic" token, ikke "Beta")
 
 ![Alt text](img/generate.png  "a title")
 
@@ -123,7 +130,7 @@ http://localhost:8080/account/1/transfer/2 \
 }'
 ```
 
-Husk at dette er applikasjonen "Shakybank", en 500 Internal server error er svært vanlig :-)
+Husk at dette er applikasjonen "Shakybank", en 500 Internal server error er *svært vanlig* :-)
 ```json
 {
   "timestamp": "2022-04-04T21:34:45.542+00:00",
@@ -137,7 +144,8 @@ Når du ikke får noe output fra terminalen etter CURL kommandoen har requesten 
 
 ## Lag en GitHub Actions workflow
 Bruk  Cloud 9 til å lage to mapper og en fil som heter ````.github/workflows/main.yml```` under rotmappen til repositoriet du har klonet.
-
+NB!
+Husk å trykke ctrl+s etter du har laget denne filen i cloud 9, hvis ikke vil du sjekke inn en tom fil, og din workflow vil ikke fungere
 ```yaml
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
@@ -161,9 +169,9 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 ```
+* OBS! Hvis du senere ikke finner igjen denne filen, er det fordi Cloud 9 default skjuler filer og mapper som begynner på ". Hvis det skjer, velg "tannhjulet" øverst til høyre i fil-explorer, og velg "show hidden files"
 
-
-Dette er en vekdig enkel *workflow* med en *job* som har en rekke *steps*. Koden sjekkes ut. JDK11 konfigureres,
+* Dette er en vekdig enkel *workflow* med en *job* som har en rekke *steps*. Koden sjekkes ut. JDK11 konfigureres,
 Maven lager en installasjonspakke.
 
 Commit og push til ditt repo. 
@@ -201,10 +209,11 @@ Ved å konfigurerere main som en beskyttet branch, og ved å bruke "status sjekk
 - Velg *main* Som branch
 - Velg ```require a pull request before merging```
 - Velg ````Require status check to pass before merging````
+- Velg ```Do not allow bypassing the above settings```
 - I søkefeltet skriv inn teksten *build* som skal la deg velge "GitHub Actions". 
 
 * Nå kan vi ikke Merge en pull request inn i Main uten at status sjekken er i orden. Det betyr at vår Workflow har kjørt OK. 
-* Ingen i teamet kan heller "snike seg unna" denne sjekken ved å comitte kode rett på main branch.
+* Ingen i teamet kan nå "snike seg unna" denne sjekken ved å comitte kode rett på main branch, selv ikke admin
 * En bra start!
 
 ## Test å brekke koden 
